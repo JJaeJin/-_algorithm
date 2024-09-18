@@ -3,8 +3,10 @@
 
 using namespace std;
 
+// 1부터 N까지 중복 없이 M개를 고른 수열
 int N, M;
-int res[8];
+int arr[9];
+bool isused[9];
 
 void rec(int n);
 
@@ -14,34 +16,29 @@ int main(void) {
 
 	cin >> N >> M;
 
-	rec(M);
+	rec(0);
+
 	return 0;
 }
 
 void rec(int n) {
-	if (n == 0) {
+	if (n == M) {
 		for (int i = 0; i < M; i++) {
-			cout << res[i];
-			if (i == M - 1) {
-				cout << "\n";
-			} else {
-				cout << " ";
-			}
+			cout << arr[i];
+			if (i + 1 == M)
+				cout << '\n';
+			else
+				cout << ' ';
 		}
-		return ;
+		return;
 	}
 
 	for (int i = 1; i <= N; i++) {
-		bool same = false;
-		for (int j = 0; j < M - n; j++) {
-			if (res[j] == i) {
-				same = true;
-				break;
-			}
-		}
-		if (same == false) {
-			res[M - n] = i;
-			rec(n - 1);
+		if (!isused[i]) {
+			isused[i] = true;
+			arr[n] = i;
+			rec(n + 1);
+			isused[i] = false;
 		}
 	}
 }
